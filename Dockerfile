@@ -1,13 +1,9 @@
-FROM python:3.13
+FROM python:3.13-slim
 
 WORKDIR /app
 
-# Install git-lfs
-RUN apt-get update && apt-get install -y git-lfs && git lfs install
-
 COPY . .
 
-RUN git lfs pull || true
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 
