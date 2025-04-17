@@ -73,7 +73,7 @@ def pred(model: torch.nn.Module,image_path: bytes,class_names: List[str],image_s
 
 @app.route('/')
 def home():
-    return "welcome to the crop prediction API"
+    return "welcome to the crop prediction deep learning API"
 
 
 @app.route('/favicon.ico')
