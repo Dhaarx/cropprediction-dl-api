@@ -1,10 +1,11 @@
 Flask==3.1.0
 flask-cors==5.0.1
+gdown==5.2.0
 gunicorn==23.0.0
 numpy==2.2.4
-pillow==11.2.1
+PySocks==1.7.1
 timm==1.0.15
-torch==2.6.0
-torchvision==0.21.0
+torch==2.6.0+cpu
+torchvision==0.21.0+cpu
 typing_extensions==4.13.2
 

@@ -9,6 +9,8 @@ from io import BytesIO
 import base64
 from typing import List,Tuple
 import os
+import gdown # type: ignore
+
 
 
 app=Flask(__name__)
@@ -18,7 +20,17 @@ CORS(app)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 class_names = ['Apple_Apple_scab', 'Apple_Black_rot', 'Apple_Cedar_apple_rust', 'Apple_healthy', 'Blueberry_healthy', 'Cherry(including_sour)Powdery_mildew', 'Cherry(including_sour)healthy', 'Corn(maize)Cercospora_leaf_spot Gray_leaf_spot', 'Corn(maize)Common_rust', 'Corn(maize)Northern_Leaf_Blight', 'Corn(maize)healthy', 'Grape_Black_rot', 'Grape_Esca(Black_Measles)', 'Grape_Leaf_blight(Isariopsis_Leaf_Spot)', 'Grapehealthy', 'Orange_Haunglongbing(Citrus_greening)', 'PeachBacterial_spot', 'Peach_healthy', 'Pepper,_bell_Bacterial_spot', 'Pepper,_bell_healthy', 'Potato_Early_blight', 'Potato_Late_blight', 'Potato_healthy', 'Raspberry_healthy', 'Soybean_healthy', 'Squash_Powdery_mildew', 'Strawberry_Leaf_scorch', 'Strawberry_healthy', 'Tomato_Bacterial_spot', 'Tomato_Early_blight', 'Tomato_Late_blight', 'Tomato_Leaf_Mold', 'Tomato_Septoria_leaf_spot', 'Tomato_Spider_mites Two-spotted_spider_mite', 'Tomato_Target_Spot', 'Tomato_Tomato_Yellow_Leaf_Curl_Virus', 'Tomato_Tomato_mosaic_virus', 'Tomato_healthy']
-model = torch.load(r'full_model.pth', weights_only=False)
+
+# === Download model from Google Drive if not present ===
+model_path = "full_model.pth"
+model_drive_url = "https://drive.google.com/uc?id=1DXpL1anOs6943Ifj1Uno7_4nd99RjGU3"
+
+if not os.path.exists(model_path):
+    print("Downloading model from Google Drive...")
+    gdown.download(model_drive_url, model_path, quiet=False)
+
+# Load model
+model = torch.load(model_path, weights_only=False)
 
 #transform
 transform = transforms.Compose([
